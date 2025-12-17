@@ -1,0 +1,8 @@
+{
+  "label": "Module 2: The Digital Twin (Gazebo & Unity)",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Building digital twins using physics-accurate simulation in Gazebo and high-fidelity human-robot interaction rendering in Unity"
+  }
+}

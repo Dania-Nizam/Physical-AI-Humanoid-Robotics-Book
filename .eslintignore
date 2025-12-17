@@ -1,0 +1,10 @@
+node_modules/
+build/
+dist/
+.out/
+.docusaurus/
+coverage/
+*.min.js
+*.bundle.js
+public/
+static/

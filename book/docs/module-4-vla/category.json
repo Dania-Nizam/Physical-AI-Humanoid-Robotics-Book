@@ -1,0 +1,9 @@
+{
+  "label": "Module 4: Vision-Language-Action (VLA)",
+  "position": 4,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn how to integrate vision-language models with robotics for natural language command understanding and execution on humanoid robots."
+  }
+}

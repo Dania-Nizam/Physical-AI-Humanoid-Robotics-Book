@@ -1,0 +1,1089 @@
+openapi: 3.0.3
+info:
+  title: Gazebo & Unity Digital Twin API
+  description: API for managing digital twin simulations with Gazebo physics and Unity visualization
+  version: 1.0.0
+  contact:
+    name: Digital Twin Simulation Team
+    email: dev@digital-twin.example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://digital-twin-api.example.com
+    description: Production server
+
+paths:
+  /environments:
+    get:
+      summary: List all digital twin environments
+      description: Retrieve a list of all available digital twin simulation environments
+      tags:
+        - Environments
+      responses:
+        '200':
+          description: List of digital twin environments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DigitalTwinEnvironment'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      summary: Create a new digital twin environment
+      description: Create a new simulation environment with Gazebo and Unity integration
+      tags:
+        - Environments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigitalTwinEnvironment'
+      responses:
+        '201':
+          description: Environment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DigitalTwinEnvironment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}:
+    get:
+      summary: Get a specific digital twin environment
+      description: Retrieve details of a specific digital twin environment
+      tags:
+        - Environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '200':
+          description: Digital twin environment details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DigitalTwinEnvironment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      summary: Update a digital twin environment
+      description: Update the configuration of an existing digital twin environment
+      tags:
+        - Environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DigitalTwinEnvironment'
+      responses:
+        '200':
+          description: Environment updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DigitalTwinEnvironment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Delete a digital twin environment
+      description: Remove a digital twin environment and its associated configurations
+      tags:
+        - Environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '204':
+          description: Environment deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/robots:
+    get:
+      summary: List robots in an environment
+      description: Retrieve all robots in a specific digital twin environment
+      tags:
+        - Robots
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '200':
+          description: List of robots in the environment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HumanoidRobotModel'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      summary: Spawn a robot in environment
+      description: Add and initialize a robot in the specified digital twin environment
+      tags:
+        - Robots
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HumanoidRobotModel'
+      responses:
+        '201':
+          description: Robot spawned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanoidRobotModel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/robots/{robotId}:
+    get:
+      summary: Get robot details
+      description: Retrieve detailed information about a specific robot in an environment
+      tags:
+        - Robots
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the robot
+      responses:
+        '200':
+          description: Robot details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanoidRobotModel'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      summary: Update robot configuration
+      description: Update the configuration of an existing robot in the environment
+      tags:
+        - Robots
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the robot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HumanoidRobotModel'
+      responses:
+        '200':
+          description: Robot updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanoidRobotModel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Remove robot from environment
+      description: Remove a robot from the digital twin environment
+      tags:
+        - Robots
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the robot
+      responses:
+        '204':
+          description: Robot removed successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/simulate:
+    post:
+      summary: Start simulation
+      description: Start the physics simulation in Gazebo and visualization in Unity
+      tags:
+        - Simulation
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '200':
+          description: Simulation started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationState'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/simulate/pause:
+    post:
+      summary: Pause simulation
+      description: Pause the running simulation
+      tags:
+        - Simulation
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '200':
+          description: Simulation paused successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationState'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/simulate/stop:
+    post:
+      summary: Stop simulation
+      description: Stop the running simulation
+      tags:
+        - Simulation
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+      responses:
+        '200':
+          description: Simulation stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulationState'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/robots/{robotId}/control:
+    post:
+      summary: Send control commands to robot
+      description: Send joint commands or high-level control commands to a robot
+      tags:
+        - Control
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the robot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                joint_commands:
+                  type: object
+                  additionalProperties:
+                    type: number
+                  description: Mapping of joint names to target positions/velocities/efforts
+                trajectory:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/JointTrajectoryPoint'
+                  description: Sequence of trajectory points for robot movement
+                command_type:
+                  type: string
+                  enum: [position, velocity, effort, trajectory]
+                  default: position
+      responses:
+        '200':
+          description: Control command processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /environments/{environmentId}/robots/{robotId}/sensors:
+    get:
+      summary: Get sensor data from robot
+      description: Retrieve current sensor readings from a robot
+      tags:
+        - Sensors
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the environment
+        - name: robotId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the robot
+      responses:
+        '200':
+          description: Sensor data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                  sensor_readings:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/SensorReading'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    DigitalTwinEnvironment:
+      type: object
+      required:
+        - name
+        - gazebo_world_file
+        - unity_scene_file
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the environment
+          example: "env-001-gazebo-unity-hospital"
+        name:
+          type: string
+          description: Human-readable name for the environment
+          example: "Hospital Corridor Simulation"
+        description:
+          type: string
+          description: Detailed description of the environment
+          example: "Simulation of hospital corridor with obstacles and interactive elements"
+        gazebo_world_file:
+          type: string
+          description: Path to the SDF world file for Gazebo
+          example: "worlds/hospital_corridor.sdf"
+        unity_scene_file:
+          type: string
+          description: Path to the Unity scene file
+          example: "Scenes/HospitalCorridor.unity"
+        physics_properties:
+          type: object
+          properties:
+            gravity:
+              type: array
+              items:
+                type: number
+                example: [0, 0, -9.81]
+              minItems: 3
+              maxItems: 3
+            friction:
+              type: number
+              example: 0.8
+            damping:
+              type: number
+              example: 0.1
+        lighting_settings:
+          type: object
+          properties:
+            ambient_light:
+              type: object
+              properties:
+                intensity:
+                  type: number
+                  example: 0.5
+                color:
+                  type: array
+                  items:
+                    type: number
+                    example: [0.8, 0.8, 0.8]
+                  minItems: 3
+                  maxItems: 3
+            directional_light:
+              type: object
+              properties:
+                direction:
+                  type: array
+                  items:
+                    type: number
+                    example: [-0.5, -1, -0.8]
+                  minItems: 3
+                  maxItems: 3
+                intensity:
+                  type: number
+                  example: 1.0
+        environment_objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentObject'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    EnvironmentObject:
+      type: object
+      required:
+        - name
+        - type
+        - geometry
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the object
+          example: "obj-001-table"
+        name:
+          type: string
+          description: Name of the environment object
+          example: "hospital_table"
+        type:
+          type: string
+          enum: [static, dynamic, kinematic]
+          description: Type of physics behavior for the object
+          example: "static"
+        geometry:
+          $ref: '#/components/schemas/Geometry'
+        position:
+          type: array
+          items:
+            type: number
+            example: [1.0, 2.0, 0.0]
+          minItems: 3
+          maxItems: 3
+          description: Position in world coordinates [x, y, z]
+        orientation:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 0.0, 1.0]
+          minItems: 4
+          maxItems: 4
+          description: Orientation as quaternion [x, y, z, w]
+        properties:
+          type: object
+          properties:
+            mass:
+              type: number
+              example: 10.0
+            friction:
+              type: number
+              example: 0.7
+            restitution:
+              type: number
+              example: 0.1
+
+    Geometry:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/BoxGeometry'
+        - $ref: '#/components/schemas/CylinderGeometry'
+        - $ref: '#/components/schemas/SphereGeometry'
+        - $ref: '#/components/schemas/MeshGeometry'
+
+    BoxGeometry:
+      type: object
+      required:
+        - type
+        - size
+      properties:
+        type:
+          type: string
+          enum: [box]
+        size:
+          type: array
+          items:
+            type: number
+            example: [1.0, 0.5, 0.8]
+          minItems: 3
+          maxItems: 3
+          description: Width, depth, height of the box
+
+    CylinderGeometry:
+      type: object
+      required:
+        - type
+        - radius
+        - length
+      properties:
+        type:
+          type: string
+          enum: [cylinder]
+        radius:
+          type: number
+          example: 0.3
+        length:
+          type: number
+          example: 1.0
+
+    SphereGeometry:
+      type: object
+      required:
+        - type
+        - radius
+      properties:
+        type:
+          type: string
+          enum: [sphere]
+        radius:
+          type: number
+          example: 0.5
+
+    MeshGeometry:
+      type: object
+      required:
+        - type
+        - filename
+      properties:
+        type:
+          type: string
+          enum: [mesh]
+        filename:
+          type: string
+          example: "models/table.dae"
+        scale:
+          type: array
+          items:
+            type: number
+            example: [1.0, 1.0, 1.0]
+          minItems: 3
+          maxItems: 3
+
+    HumanoidRobotModel:
+      type: object
+      required:
+        - name
+        - urdf_file
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the robot
+          example: "robot-001-atlas"
+        name:
+          type: string
+          description: Name of the robot model
+          example: "Atlas_Robot"
+        urdf_file:
+          type: string
+          description: Path to the URDF model file
+          example: "models/atlas.urdf"
+        sdf_file:
+          type: string
+          description: Path to the SDF model file for Gazebo
+          example: "models/atlas.sdf"
+        collision_meshes:
+          type: array
+          items:
+            type: string
+          example: ["meshes/atlas_collision.dae"]
+        visual_meshes:
+          type: array
+          items:
+            type: string
+          example: ["meshes/atlas_visual.dae"]
+        joints:
+          type: array
+          items:
+            $ref: '#/components/schemas/Joint'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        sensors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sensor'
+        base_position:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 1.0]
+          minItems: 3
+          maxItems: 3
+          description: Initial position in simulation [x, y, z]
+        base_orientation:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 0.0, 1.0]
+          minItems: 4
+          maxItems: 4
+          description: Initial orientation as quaternion [x, y, z, w]
+
+    Joint:
+      type: object
+      required:
+        - name
+        - type
+        - parent_link
+        - child_link
+      properties:
+        name:
+          type: string
+          example: "left_knee_joint"
+        type:
+          type: string
+          enum: [revolute, prismatic, fixed, continuous, floating, planar]
+          example: "revolute"
+        parent_link:
+          type: string
+          example: "left_thigh"
+        child_link:
+          type: string
+          example: "left_shin"
+        axis:
+          type: array
+          items:
+            type: number
+            example: [0, 1, 0]
+          minItems: 3
+          maxItems: 3
+          description: Joint axis as normalized vector
+        limits:
+          $ref: '#/components/schemas/JointLimits'
+        dynamics:
+          $ref: '#/components/schemas/JointDynamics'
+
+    JointLimits:
+      type: object
+      properties:
+        lower:
+          type: number
+          example: -1.57
+        upper:
+          type: number
+          example: 1.57
+        velocity:
+          type: number
+          example: 2.0
+        effort:
+          type: number
+          example: 100.0
+
+    JointDynamics:
+      type: object
+      properties:
+        damping:
+          type: number
+          example: 0.1
+        friction:
+          type: number
+          example: 0.0
+
+    Link:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "left_foot"
+        inertial:
+          $ref: '#/components/schemas/Inertial'
+        visual:
+          $ref: '#/components/schemas/Visual'
+        collision:
+          $ref: '#/components/schemas/Collision'
+
+    Inertial:
+      type: object
+      required:
+        - mass
+        - origin
+      properties:
+        mass:
+          type: number
+          example: 2.5
+        origin:
+          $ref: '#/components/schemas/Pose'
+        inertia:
+          $ref: '#/components/schemas/Inertia'
+
+    Inertia:
+      type: object
+      properties:
+        ixx:
+          type: number
+          example: 0.1
+        ixy:
+          type: number
+          example: 0.0
+        ixz:
+          type: number
+          example: 0.0
+        iyy:
+          type: number
+          example: 0.1
+        iyz:
+          type: number
+          example: 0.0
+        izz:
+          type: number
+          example: 0.1
+
+    Pose:
+      type: object
+      properties:
+        position:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 0.0]
+          minItems: 3
+          maxItems: 3
+        orientation:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 0.0, 1.0]
+          minItems: 4
+          maxItems: 4
+
+    Visual:
+      type: object
+      required:
+        - geometry
+      properties:
+        geometry:
+          $ref: '#/components/schemas/Geometry'
+        material:
+          $ref: '#/components/schemas/Material'
+        origin:
+          $ref: '#/components/schemas/Pose'
+
+    Collision:
+      type: object
+      required:
+        - geometry
+      properties:
+        geometry:
+          $ref: '#/components/schemas/Geometry'
+        origin:
+          $ref: '#/components/schemas/Pose'
+
+    Material:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "blue_material"
+        color:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 1.0, 1.0]
+          minItems: 4
+          maxItems: 4
+          description: RGBA color values
+
+    Sensor:
+      type: object
+      required:
+        - name
+        - type
+        - parent_link
+      properties:
+        name:
+          type: string
+          example: "front_lidar"
+        type:
+          type: string
+          enum: [lidar, depth_camera, imu, camera, gps, force_torque]
+          example: "lidar"
+        parent_link:
+          type: string
+          example: "base_link"
+        position:
+          type: array
+          items:
+            type: number
+            example: [0.1, 0.0, 0.5]
+          minItems: 3
+          maxItems: 3
+          description: Position relative to parent link [x, y, z]
+        orientation:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.0, 0.0, 1.0]
+          minItems: 4
+          maxItems: 4
+          description: Orientation as quaternion [x, y, z, w]
+        parameters:
+          type: object
+          additionalProperties: true
+          description: Sensor-specific configuration parameters
+
+    SimulationState:
+      type: object
+      properties:
+        environment_id:
+          type: string
+          example: "env-001-gazebo-unity-hospital"
+        robot_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/RobotState'
+        timestamp:
+          type: string
+          format: date-time
+        simulation_time:
+          type: number
+          example: 12.5
+          description: Current simulation time in seconds
+        real_time_factor:
+          type: number
+          example: 1.0
+          description: Real-time factor (simulation time / wall clock time)
+        state:
+          type: string
+          enum: [running, paused, stopped]
+          example: "running"
+
+    RobotState:
+      type: object
+      properties:
+        robot_id:
+          type: string
+          example: "robot-001-atlas"
+        joint_positions:
+          type: object
+          additionalProperties:
+            type: number
+          example:
+            left_knee_joint: 0.1
+            right_knee_joint: -0.05
+        joint_velocities:
+          type: object
+          additionalProperties:
+            type: number
+          example:
+            left_knee_joint: 0.2
+            right_knee_joint: -0.1
+        joint_efforts:
+          type: object
+          additionalProperties:
+            type: number
+          example:
+            left_knee_joint: 15.0
+            right_knee_joint: -8.0
+        base_position:
+          type: array
+          items:
+            type: number
+            example: [1.2, 0.8, 0.9]
+          minItems: 3
+          maxItems: 3
+        base_orientation:
+          type: array
+          items:
+            type: number
+            example: [0.0, 0.1, 0.0, 0.995]
+          minItems: 4
+          maxItems: 4
+        sensor_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SensorReading'
+
+    SensorReading:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        sensor_type:
+          type: string
+          enum: [lidar, depth_camera, imu, camera, gps, force_torque]
+        data:
+          type: object
+          additionalProperties: true
+          description: Sensor-specific data format
+
+    JointTrajectoryPoint:
+      type: object
+      properties:
+        positions:
+          type: array
+          items:
+            type: number
+          example: [0.0, 0.5, -0.3]
+        velocities:
+          type: array
+          items:
+            type: number
+          example: [0.1, 0.2, -0.1]
+        accelerations:
+          type: array
+          items:
+            type: number
+          example: [0.0, 0.05, -0.05]
+        time_from_start:
+          type: number
+          example: 1.0
+          description: Time from start of trajectory in seconds
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Invalid input parameters"
+              details:
+                type: string
+                example: "Environment name is required"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Resource not found"
+              details:
+                type: string
+                example: "Environment with ID 'env-123' does not exist"
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
+              details:
+                type: string
+                example: "An unexpected error occurred"

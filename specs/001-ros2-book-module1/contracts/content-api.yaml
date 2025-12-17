@@ -1,0 +1,55 @@
+# Contract: Educational Content API Interface
+
+## Overview
+This contract defines the interface between the educational content (Docusaurus-based static site) and potential backend services for features like the RAG chatbot, user progress tracking, or content management. This is a forward-looking contract that may be implemented in future modules.
+
+## Content Structure Contract
+
+### Chapter Content Format
+- **Content Type**: Markdown with Docusaurus frontmatter
+- **Required Fields**:
+  - `title` (string): Chapter title
+  - `description` (string): Brief chapter description
+  - `tags` (array of strings): Educational tags for search and categorization
+  - `wordCount` (number): Word count for the chapter content
+  - `codeExamples` (array): List of code examples with language and description
+- **Optional Fields**:
+  - `prerequisites` (array): Prerequisite knowledge for this chapter
+  - `learningObjectives` (array): Learning objectives for this chapter
+  - `diagrams` (array): Diagram references with descriptions
+
+### Module Structure Format
+- **Content Type**: JSON configuration
+- **Required Fields**:
+  - `id` (string): Unique module identifier
+  - `label` (string): Display label for the module
+  - `position` (number): Navigation position
+  - `chapters` (array): List of chapter IDs in order
+  - `description` (string): Module description
+
+## API Contract (Future Implementation)
+
+### Content Retrieval
+- **Endpoint**: `/api/content/module/{moduleId}/chapter/{chapterId}`
+- **Method**: GET
+- **Response**:
+  - Status 200: Returns chapter content in the format defined above
+  - Status 404: Chapter or module not found
+- **Authentication**: None required for public content
+
+### Search Interface
+- **Endpoint**: `/api/search`
+- **Method**: POST
+- **Request Body**:
+  - `query` (string): Search query
+  - `context` (string, optional): Context for search (e.g., "module-1", "all")
+- **Response**:
+  - Status 200: Returns search results with content snippets and links
+  - Status 400: Invalid query
+
+## Validation Rules
+- All content must be in valid Markdown format
+- Frontmatter must include required fields
+- Code examples must be properly tagged with language identifiers
+- Diagram references must point to valid image files
+- Content must be between 800-1500 words per chapter requirement

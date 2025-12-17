@@ -1,0 +1,136 @@
+#usda 1.0
+(
+    doc = "Simple humanoid robot for Isaac Sim"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "HumanoidRobot"
+{
+    def Xform "base_link"
+    {
+        # Robot base
+        def Capsule "torso"
+        {
+            extent = [(-0.1, -0.3, -0.1), (0.1, 0.3, 0.1)]
+            radius = 0.1
+            height = 0.6
+            xformOp:translate = (0, 0.6, 0)
+        }
+
+        def Sphere "head"
+        {
+            extent = [(-0.1, -0.1, -0.1), (0.1, 0.1, 0.1)]
+            radius = 0.1
+            xformOp:translate = (0, 0.9, 0)
+        }
+
+        # Left Arm
+        def Xform "left_arm"
+        {
+            def Capsule "left_upper_arm"
+            {
+                extent = [(-0.05, -0.2, -0.05), (0.05, 0.2, 0.05)]
+                radius = 0.05
+                height = 0.4
+                xformOp:translate = (-0.3, 0.5, 0)
+            }
+
+            def Capsule "left_lower_arm"
+            {
+                extent = [(-0.04, -0.15, -0.04), (0.04, 0.15, 0.04)]
+                radius = 0.04
+                height = 0.3
+                xformOp:translate = (-0.3, 0.1, 0)
+            }
+
+            def Sphere "left_hand"
+            {
+                extent = [(-0.05, -0.05, -0.05), (0.05, 0.05, 0.05)]
+                radius = 0.05
+                xformOp:translate = (-0.3, -0.15, 0)
+            }
+        }
+
+        # Right Arm
+        def Xform "right_arm"
+        {
+            def Capsule "right_upper_arm"
+            {
+                extent = [(-0.05, -0.2, -0.05), (0.05, 0.2, 0.05)]
+                radius = 0.05
+                height = 0.4
+                xformOp:translate = (0.3, 0.5, 0)
+            }
+
+            def Capsule "right_lower_arm"
+            {
+                extent = [(-0.04, -0.15, -0.04), (0.04, 0.15, 0.04)]
+                radius = 0.04
+                height = 0.3
+                xformOp:translate = (0.3, 0.1, 0)
+            }
+
+            def Sphere "right_hand"
+            {
+                extent = [(-0.05, -0.05, -0.05), (0.05, 0.05, 0.05)]
+                radius = 0.05
+                xformOp:translate = (0.3, -0.15, 0)
+            }
+        }
+
+        # Left Leg
+        def Xform "left_leg"
+        {
+            def Capsule "left_thigh"
+            {
+                extent = [(-0.06, -0.3, -0.06), (0.06, 0.3, 0.06)]
+                radius = 0.06
+                height = 0.6
+                xformOp:translate = (-0.15, -0.5, 0)
+            }
+
+            def Capsule "left_shin"
+            {
+                extent = [(-0.05, -0.3, -0.05), (0.05, 0.3, 0.05)]
+                radius = 0.05
+                height = 0.6
+                xformOp:translate = (-0.15, -1.1, 0)
+            }
+
+            def Sphere "left_foot"
+            {
+                extent = [(-0.08, -0.05, -0.08), (0.08, 0.05, 0.08)]
+                radius = 0.05
+                xformOp:translate = (-0.15, -1.4, 0)
+            }
+        }
+
+        # Right Leg
+        def Xform "right_leg"
+        {
+            def Capsule "right_thigh"
+            {
+                extent = [(-0.06, -0.3, -0.06), (0.06, 0.3, 0.06)]
+                radius = 0.06
+                height = 0.6
+                xformOp:translate = (0.15, -0.5, 0)
+            }
+
+            def Capsule "right_shin"
+            {
+                extent = [(-0.05, -0.3, -0.05), (0.05, 0.3, 0.05)]
+                radius = 0.05
+                height = 0.6
+                xformOp:translate = (0.15, -1.1, 0)
+            }
+
+            def Sphere "right_foot"
+            {
+                extent = [(-0.08, -0.05, -0.08), (0.08, 0.05, 0.08)]
+                radius = 0.05
+                xformOp:translate = (0.15, -1.4, 0)
+            }
+        }
+    }
+}
