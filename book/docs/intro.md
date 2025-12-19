@@ -34,7 +34,8 @@ In this module, you'll learn:
 
 To begin your journey in Physical AI and Humanoid Robotics:
 
-1. Navigate to the first module: [Introduction to ROS 2](./module-1-robotic-nervous-system/01-introduction-to-ros2.md)
+1. Navigate to the first module: [Introduction to ROS 2](./module-1-robotic-nervous-system/introduction-to-ros2.md)
+
 2. Follow the modules in sequence for the best learning experience
 3. Practice with the code examples provided in each chapter
 4. Experiment with the concepts in your own ROS 2 environment

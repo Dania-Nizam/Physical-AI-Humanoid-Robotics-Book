@@ -103,7 +103,7 @@ const config: Config = {
           items: [
             {
               label: 'Module 1: The Robotic Nervous System (ROS 2)',
-              to: '/docs/module-1-robotic-nervous-system/01-introduction-to-ros2',
+              to: '/docs/module-1-robotic-nervous-system/introduction-to-ros2',
             },
           ],
         },
