@@ -1,0 +1,369 @@
+openapi: 3.0.3
+info:
+  title: RAG Chatbot API
+  description: API for the RAG Chatbot for published book content
+  version: 1.0.0
+  contact:
+    name: RAG Chatbot Team
+    email: support@example.com
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://rag-chatbot.example.com
+    description: Production server
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Returns the health status of the application and its services
+      responses:
+        '200':
+          description: Health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '500':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /chat/full:
+    post:
+      summary: Chat with full book content
+      description: Query the entire book content with retrieval-augmented generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatFullRequest'
+      responses:
+        '200':
+          description: Chat response with citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /chat/selected:
+    post:
+      summary: Chat with selected text
+      description: Query based only on user-provided selected text (no retrieval from full book)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatSelectedRequest'
+      responses:
+        '200':
+          description: Chat response with citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sessions:
+    post:
+      summary: Create a new session
+      description: Creates a new chat session and returns the session ID
+      responses:
+        '200':
+          description: New session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  session_id:
+                    type: string
+                    description: The newly created session ID
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sessions/{session_id}/history:
+    get:
+      summary: Get session history
+      description: Retrieve the conversation history for a specific session
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          description: The session ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Session history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionHistoryResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ChatFullRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The user's question about the book content
+          example: "What is the main theme of this book?"
+        session_id:
+          type: string
+          description: Existing session ID (optional, creates new if not provided)
+          example: "abc123-uuid-string"
+        temperature:
+          type: number
+          description: Model temperature (default 0.1)
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.1
+        max_tokens:
+          type: integer
+          description: Maximum tokens in response (default 1000)
+          minimum: 1
+          maximum: 2000
+          example: 1000
+
+    ChatSelectedRequest:
+      type: object
+      required:
+        - query
+        - selected_text
+      properties:
+        query:
+          type: string
+          description: The user's question about the selected text
+          example: "Explain this concept in simpler terms"
+        selected_text:
+          type: string
+          description: The text selected by the user to ground the response
+          example: "The complex concept is defined here in the book..."
+        session_id:
+          type: string
+          description: Existing session ID (optional, creates new if not provided)
+          example: "abc123-uuid-string"
+        temperature:
+          type: number
+          description: Model temperature (default 0.1)
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.1
+        max_tokens:
+          type: integer
+          description: Maximum tokens in response (default 1000)
+          minimum: 1
+          maximum: 2000
+          example: 1000
+
+    ChatResponse:
+      type: object
+      required:
+        - message
+        - citations
+        - session_id
+        - response_id
+      properties:
+        message:
+          type: string
+          description: The assistant's response to the query
+          example: "The main theme of the book is..."
+        citations:
+          type: array
+          description: Array of citation objects with source information
+          items:
+            $ref: '#/components/schemas/Citation'
+        session_id:
+          type: string
+          description: The session ID (newly created if not provided)
+          example: "abc123-uuid-string"
+        response_id:
+          type: string
+          description: Unique identifier for this response
+          example: "resp-123-uuid"
+
+    Citation:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text that was cited
+          example: "The main theme of the book is..."
+        source:
+          type: string
+          description: Source identifier (e.g., page number, chapter)
+          example: "page_15"
+        relevance_score:
+          type: number
+          description: Relevance score if available
+          minimum: 0.0
+          maximum: 1.0
+          example: 0.95
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - services
+      properties:
+        status:
+          type: string
+          description: Health status
+          enum: [healthy, unhealthy]
+          example: "healthy"
+        timestamp:
+          type: string
+          description: ISO format timestamp of check
+          format: date-time
+          example: "2025-12-17T10:00:00Z"
+        services:
+          type: object
+          description: Status of external services
+          properties:
+            cohere:
+              type: string
+              enum: [connected, disconnected]
+              example: "connected"
+            qdrant:
+              type: string
+              enum: [connected, disconnected]
+              example: "connected"
+            neon:
+              type: string
+              enum: [connected, disconnected]
+              example: "connected"
+
+    SessionHistoryResponse:
+      type: object
+      required:
+        - session_id
+        - messages
+        - created_at
+      properties:
+        session_id:
+          type: string
+          description: The session identifier
+          example: "abc123-uuid-string"
+        messages:
+          type: array
+          description: List of messages in the session
+          items:
+            $ref: '#/components/schemas/Message'
+        created_at:
+          type: string
+          description: When the session was created
+          format: date-time
+          example: "2025-12-17T09:00:00Z"
+
+    Message:
+      type: object
+      required:
+        - id
+        - session_id
+        - role
+        - content
+        - timestamp
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the message
+          example: "msg-123-uuid"
+        session_id:
+          type: string
+          description: Session ID this message belongs to
+          example: "abc123-uuid-string"
+        role:
+          type: string
+          description: The role of the message sender
+          enum: [user, assistant]
+          example: "user"
+        content:
+          type: string
+          description: The content of the message
+          example: "What is the main theme of this book?"
+        timestamp:
+          type: string
+          description: When the message was created
+          format: date-time
+          example: "2025-12-17T09:05:00Z"
+        citations:
+          type: array
+          description: Citations for assistant messages
+          items:
+            $ref: '#/components/schemas/Citation'
+        message_type:
+          type: string
+          description: Type of message
+          enum: [query, response, system]
+          example: "query"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "Invalid request parameters"
+        details:
+          type: object
+          description: Additional error details
+          example: {"field": "query", "reason": "must not be empty"}
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Optional authentication for future use
+
+security:
+  - BearerAuth: []

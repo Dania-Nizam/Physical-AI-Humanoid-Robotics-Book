@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install pytest pytest-mock)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
