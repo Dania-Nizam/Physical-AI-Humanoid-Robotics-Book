@@ -2,32 +2,38 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 import os
 from dotenv import load_dotenv
+import ssl
 
 # Load environment variables
 load_dotenv()
 
-# Database URL from environment
+# 1. DATABASE_URL ko .env se uthaein (Default mein sslmode hata diya hai)
 DATABASE_URL = os.getenv(
     "NEON_DATABASE_URL",
-    "postgresql+asyncpg://neondb_owner:npg_gICNdrwY5pO7@ep-still-meadow-a4lcind5-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    "postgresql+asyncpg://neondb_owner:npg_gICNdrwY5pO7@ep-still-meadow-a4lcind5-pooler.us-east-1.aws.neon.tech/neondb"
 )
 
-# For testing purposes, we'll use a SQLite database
-import os
-if os.getenv("TESTING", "false").lower() == "true":
+# Testing check
+IS_TESTING = os.getenv("TESTING", "false").lower() == "true"
+if IS_TESTING:
     DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
-# Create async engine with connection pooling
+# 2. SSL Context sirf PostgreSQL/Neon ke liye banayein
+connect_args = {}
+
+if not IS_TESTING and "postgresql" in DATABASE_URL:
+    ssl_context = ssl.create_default_context()
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    connect_args["ssl"] = ssl_context # Neon ke liye SSL lazmi hai
+
+# 3. Create engine
 engine = create_async_engine(
     DATABASE_URL,
-    pool_size=5,
-    max_overflow=10,
-    pool_pre_ping=True,  # Verify connections before use
-    pool_recycle=300,    # Recycle connections after 5 minutes
-    echo=False           # Set to True for SQL query logging during development
+    connect_args=connect_args
 )
 
-# Create async session maker
+# Async session maker
 AsyncSessionLocal = sessionmaker(
     engine,
     class_=AsyncSession,

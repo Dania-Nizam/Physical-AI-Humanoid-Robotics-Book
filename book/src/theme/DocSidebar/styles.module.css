@@ -1,0 +1,145 @@
+/**
+ * Custom styles for the DocSidebar component
+ * with futuristic theme enhancements
+ */
+ :root {
+  --bg-card: #1a1a1a;
+  --border-radius: 8px;
+  --border-radius-sm: 4px;
+  --shadow: 0 4px 12px rgba(0,0,0,0.5);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --gradient-primary: linear-gradient(90deg, #00d1ff, #00ff87);
+  --glow-primary: 0 0 15px rgba(0, 209, 255, 0.5);
+  --transition-default: 0.3s ease;
+}
+
+
+
+
+.sidebarContainer {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 209, 255, 0.1);
+  backdrop-filter: blur(10px);
+  /* height: fit-content; */
+  position: sticky;
+  top: 1rem;
+  transition: var(--transition-default);
+  height: calc(100vh - 2rem); /* Screen ki poori height minus margin */
+  overflow-y: auto;           /* Vertical scroll enable karne ke liye */
+  overflow-x: hidden;         /* Horizontal scroll band karne ke liye */
+  position: sticky;
+  top: 1rem;
+}
+
+.sidebarContainer:hover {
+  box-shadow: var(--glow-primary);
+  border-color: rgba(0, 209, 255, 0.3);
+}
+
+.sidebarMenu {
+  background: transparent !important;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarItems {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Enhanced link styles for sidebar items */
+.menu__list-item > a,
+.menu__list-item-collapsible > .menu__link {
+  color: var(--text-secondary) !important;
+  border-radius: var(--border-radius-sm);
+  margin: 0.25rem 0;
+  transition: var(--transition-default);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu__list-item > a:hover,
+.menu__list-item-collapsible > .menu__link:hover {
+  color: var(--text-primary) !important;
+  background: rgba(0, 209, 255, 0.1) !important;
+  text-shadow: var(--glow-primary);
+}
+
+.menu__list-item > a:focus,
+.menu__list-item-collapsible > .menu__link:focus {
+  outline: 2px solid var(--ifm-color-primary-lighter);
+  outline-offset: 2px;
+}
+
+/* Active link styling */
+.menu__list-item > a[aria-current="page"],
+.menu__list-item-collapsible > .menu__link[aria-current="page"] {
+  color: var(--text-primary) !important;
+  background: var(--gradient-primary) !important;
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: var(--glow-primary);
+  font-weight: 600;
+}
+
+/* Collapsible category styling */
+.menu__list-item-collapsible {
+  margin: 0.25rem 0;
+}
+
+.menu__list-item-collapsible .menu__caret {
+  transition: var(--transition-default);
+}
+
+.menu__list-item-collapsible .menu__caret:hover {
+  color: var(--ifm-color-primary-lighter) !important;
+}
+
+/* Nested item indentation */
+.menu__list-item .menu__list-item .menu__list-item > a,
+.menu__list-item .menu__list-item .menu__list-item > .menu__link {
+  padding-left: 2rem !important;
+}
+
+.menu__list-item .menu__list-item .menu__list-item .menu__list-item > a,
+.menu__list-item .menu__list-item .menu__list-item .menu__list-item > .menu__link {
+  padding-left: 3rem !important;
+}
+
+/* Scrollbar styling */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-primary);
+  border-radius: 3px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-primary-lighter);
+}
+
+/* Responsive adjustments */
+@media (max-width: 996px) {
+  .sidebarContainer {
+    position: static;
+    margin-bottom: 2rem;
+    top: 0;
+  }
+}

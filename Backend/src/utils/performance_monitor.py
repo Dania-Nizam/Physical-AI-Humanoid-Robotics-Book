@@ -65,7 +65,7 @@ class PerformanceMonitor:
 performance_monitor = PerformanceMonitor()
 
 
-def timeout_handler(timeout_seconds: int = 30):
+def timeout_handler(timeout_seconds: int = 180):
     """Decorator to enforce function execution timeout."""
     def decorator(func: Callable) -> Callable:
         @wraps(func)
@@ -124,7 +124,7 @@ def monitor_performance(operation_name: str = "operation"):
         )
 
 
-def get_request_timeout_middleware(timeout_seconds: int = 30):
+def get_request_timeout_middleware(timeout_seconds: int = 180):
     """Factory function to create a timeout middleware."""
     async def timeout_middleware(request, call_next):
         """Middleware that enforces request timeout."""
