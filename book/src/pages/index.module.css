@@ -1,23 +1,95 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Fixed index.module.css
+ * Combine all properties into single classes to prevent conflicts
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  position: relative;
+  
+  /* Height fix: Navbar(60px) aur Footer(60px) nikaal kar exact screen fit */
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  
+  /* Sidebar se match karta hua dark gradient */
+  background: linear-gradient(180deg, #1b1b1d 0%, #000000 100%) !important;
+  color: white;
+  padding: 0;
+  margin: 0;
   overflow: hidden;
+
+
+  
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.glowingTitle {
+  font-size: 4rem;
+  font-weight: 800;
+  color: white !important;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect: Sirf title blue hoga */
+.glowingTitle:hover {
+  color: #0066ff !important;
+  text-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+  cursor: default;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #94a3b8 !important;
+  margin-bottom: 2rem;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1.5rem; /* Buttons ke darmiyan gap */
+  margin-top: 2rem;
+}
+
+.heroButton {
+  padding: 0.8rem 2rem;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  min-width: 180px;
+  text-decoration: none !important;
+}
+
+/* Primary Button (Get Started) */
+:global(.button--secondary) {
+  background-color: #00d1ff !important;
+  color: #020617 !important;
+  border: none;
+}
+
+/* Outline Button (Explore Modules) */
+:global(.button--outline.button--secondary) {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: 2px solid #00d1ff !important;
+}
+
+/* Button Hover: No color change, only lift effect */
+.heroButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 209, 255, 0.3);
+  color: inherit;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .glowingTitle {
+    font-size: 2.5rem;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

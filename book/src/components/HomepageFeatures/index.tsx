@@ -11,32 +11,33 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Physical AI Concepts',
+    // Aap static/img mein apni images dal kar path change kar sakti hain
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default, 
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Learn the core components of Physical AI, from high-fidelity 
+        simulations to real-time sensor processing and cognitive planning.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'ROS 2 Architecture',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Master the industry-standard Robot Operating System (ROS 2) to 
+        build scalable, modular, and robust robotic applications.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Isaac Sim & NVIDIA Omniverse',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Harness the power of NVIDIA Isaac Sim for synthetic data generation, 
+        physics-accurate environments, and advanced robot training.
       </>
     ),
   },

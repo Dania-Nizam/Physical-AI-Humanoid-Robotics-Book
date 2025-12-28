@@ -1,30 +1,99 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
-
-/* You can override the default Infima variables here. */
+/* --- UNIVERSAL THEME CONFIG --- */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #00b4d8;
+  --site-background-dark: #1b1b1d; /* Sidebar matches content background */
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* --- FORCE DARK MODE ON CONTENT AREA --- */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-color: var(--site-background-dark);
+  --ifm-navbar-background-color: var(--site-background-dark);
+  --ifm-footer-background-color: var(--site-background-dark);
+  --ifm-font-color-base: #f5f6f7;
+}
+
+/* Ye hissa white background ko khatam karega */
+[data-theme='dark'] body,
+[data-theme='dark'] .main-wrapper,
+[data-theme='dark'] .docPage_node_modules-\@docusaurus-theme-classic-lib-theme-DocPage-Layout-styles-module,
+[data-theme='dark'] main,
+[data-theme='dark'] article,
+[data-theme='dark'] .theme-doc-markdown,
+[data-theme='dark'] .container {
+  background-color: var(--site-background-dark) !important;
+  color: #f5f6f7 !important;
+}
+
+/* --- STICKY SIDEBAR FIX --- */
+/* Sidebar ko hamesha screen par rakhne ke liye */
+.theme-doc-sidebar-container {
+  position: sticky !important;
+  top: 60px !important;
+  height: calc(100vh - 60px) !important;
+  background-color: var(--site-background-dark) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+  z-index: 10;
+}
+
+/* Sidebar scrollbar fix */
+.menu {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+/* --- HOVER EFFECTS (BLUE COLOR) --- */
+.navbar__link:hover,
+.menu__link:hover,
+.menu__list-item-collapsible:hover,
+.heroBanner h1:hover {
+  color: #0066ff !important;
+  transition: 0.3s;
+}
+
+.menu__link--active {
+  color: #0066ff !important;
+  font-weight: bold;
+}
+
+/* --- HOME PAGE HEIGHT & SCROLL FIX --- */
+.main-wrapper:has(.heroBanner) {
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+/* Navbar & Footer Styling */
+/* --- NAVBAR TEXT VISIBILITY --- */
+
+/* Normal state: Text hamesha saaf white dikhna chahiye */
+.navbar__item,
+.navbar__link,
+.navbar__title,
+.navbar__brand {
+  color: #ffffff !important; 
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Hover state: Sirf mouse le jane par blue hoga */
+.navbar__item:hover,
+.navbar__link:hover {
+  color: #0066ff !important;
+  text-decoration: none;
+}
+
+/* Active state: Jo page khula hua hai uska link blue rahe */
+.navbar__link--active {
+  color: #0066ff !important;
+}
+
+/* Navbar background (Just to be sure it's dark enough) */
+.navbar {
+  background-color: #020617 !important;
+}
+
+.footer {
+  background-color: #020617 !important;
+  color: white !important;
+  padding: 1rem 0 !important;
+  border-top: 1px solid rgba(0, 209, 255, 0.2);
 }

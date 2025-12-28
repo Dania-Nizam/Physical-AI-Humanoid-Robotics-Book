@@ -1,45 +1,44 @@
-# Implementation Plan: ROS 2 Book Module 1 - The Robotic Nervous System
+# Implementation Plan: [FEATURE]
 
-**Branch**: `001-ros2-book-module1` | **Date**: 2025-12-16 | **Spec**: specs/001-ros2-book-module1/spec.md
-**Input**: Feature specification from `/specs/001-ros2-book-module1/spec.md`
+**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
+**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
 
 **Note**: This template is filled in by the `/sp.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
 
 ## Summary
 
-Create a Docusaurus-based educational website for "Physical AI & Humanoid Robotics" book, implementing Module 1 with 8 chapters covering ROS 2 concepts. The module will include interactive content with Python (rclpy) code examples, URDF modeling, and AI agent integration, all deployed via GitHub Pages. The implementation follows the spec-driven approach with AI-assisted content generation and maintains high-quality educational material focused on ROS 2 as the robotic nervous system.
+[Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
 
-**Language/Version**: Markdown, JavaScript/TypeScript (Docusaurus), Python 3.8+ (ROS 2 Jazzy/Humble)
-**Primary Dependencies**: Docusaurus (v3.x), React, Node.js (v18+), ROS 2 (Jazzy or Humble), rclpy
-**Storage**: GitHub Pages (static hosting), Git for version control
-**Testing**: Manual testing for content accuracy and functionality, automated build verification
-**Target Platform**: Web browser (GitHub Pages), with ROS 2 examples tested in Linux environment
-**Project Type**: Web/static site - educational content delivery
-**Performance Goals**: Fast page load times (<3s), responsive navigation, accessible content
-**Constraints**: GitHub Pages free tier limitations, Docusaurus static site generation, ROS 2 compatibility (Humble/Iron)
-**Scale/Scope**: Educational module with 8 chapters, 800-1500 words each, with code examples and diagrams
+<!--
+  ACTION REQUIRED: Replace the content in this section with the technical details
+  for the project. The structure here is presented in advisory capacity to guide
+  the iteration process.
+-->
+
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
+**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
+**Project Type**: [single/web/mobile - determines source structure]  
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
+**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-1. **Spec-Driven Development First**: ✅ Plan follows spec from spec.md with clear requirements and acceptance criteria
-2. **AI-Assisted Implementation**: ✅ Content generation will leverage Claude Code for writing chapters and code examples
-3. **Reproducibility and Version Control**: ✅ All content and configuration will be tracked in Git with clear commit messages
-4. **Quality and User-Focused Content**: ✅ Focus on educational value with tested code examples and clear explanations
-5. **Technology Stack Compliance**: ✅ Uses Docusaurus for static site generation and GitHub Pages for deployment as required
-6. **Security-First Approach**: ✅ No sensitive information involved in static educational content
-
-*Re-evaluated after Phase 1 design: All constitutional requirements continue to be met. The data models, quickstart guide, and contracts align with the specified technology stack and approach.*
+[Gates determined based on constitution file]
 
 ## Project Structure
 
 ### Documentation (this feature)
 
 ```text
-specs/001-ros2-book-module1/
+specs/[###-feature]/
 ├── plan.md              # This file (/sp.plan command output)
 ├── research.md          # Phase 0 output (/sp.plan command)
 ├── data-model.md        # Phase 1 output (/sp.plan command)
@@ -49,43 +48,51 @@ specs/001-ros2-book-module1/
 ```
 
 ### Source Code (repository root)
+<!--
+  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
+  for this feature. Delete unused options and expand the chosen structure with
+  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  not include Option labels.
+-->
 
 ```text
-# Docusaurus-based educational website
-docs/
-├── intro.md                    # Course overview
-├── module-1-robotic-nervous-system/
-│   ├── category.json           # Module category configuration
-│   ├── 01-introduction-to-ros2.md
-│   ├── 02-core-concepts-nodes-topics-messages.md
-│   ├── 03-services-and-actions.md
-│   ├── 04-parameters-and-dynamic-configuration.md
-│   ├── 05-launch-files-and-composing-systems.md
-│   ├── 06-urdf-fundamentals.md
-│   ├── 07-bridging-python-ai-agents-with-rclpy.md
-│   └── 08-debugging-visualization-best-practices.md
-├── module-2-advanced-topics/   # Future modules
-└── ...
+# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── components/                 # Custom Docusaurus components
-│   └── ROS2CodeBlock.js        # Custom code block for ROS 2 examples
-├── pages/                      # Additional pages if needed
-└── css/                        # Custom styling
-static/
-├── img/                        # Images and diagrams
-└── examples/                   # ROS 2 code examples
-.babelrc                        # Babel configuration
-.docusaurus/                    # Docusaurus build files (gitignored)
-.gitignore                      # Git ignore rules
-babel.config.js                 # Babel configuration
-docusaurus.config.js            # Main Docusaurus configuration
-package.json                    # Project dependencies
-README.md                       # Project overview
-sidebars.js                     # Navigation configuration
-tsconfig.json                   # TypeScript configuration
+├── models/
+├── services/
+├── cli/
+└── lib/
+
+tests/
+├── contract/
+├── integration/
+└── unit/
+
+# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+backend/
+├── src/
+│   ├── models/
+│   ├── services/
+│   └── api/
+└── tests/
+
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   └── services/
+└── tests/
+
+# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+api/
+└── [same as backend above]
+
+ios/ or android/
+└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
-**Structure Decision**: Single Docusaurus project structure chosen for educational content delivery. This provides a clean, navigable documentation site with proper categorization for the 8-module structure, following Docusaurus best practices for educational content. The modular approach allows for easy expansion to additional modules while maintaining consistent navigation and styling.
+**Structure Decision**: [Document the selected structure and reference the real
+directories captured above]
 
 ## Complexity Tracking
 
@@ -93,4 +100,5 @@ tsconfig.json                   # TypeScript configuration
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
 |-----------|------------|-------------------------------------|
-| [N/A] | [No violations identified] | [All constitutional requirements met] |
+| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |

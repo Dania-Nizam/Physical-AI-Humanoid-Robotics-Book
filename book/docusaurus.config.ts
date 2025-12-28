@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'http://localhost:3000',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -40,7 +40,8 @@ const config: Config = {
       'classic',
       {
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath:  require.resolve('./sidebars.ts'),
+
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -78,14 +79,15 @@ const config: Config = {
       title: 'Physical AI Book',
       logo: {
         alt: 'Physical AI & Humanoid Robotics Logo',
-        src: 'img/logo.svg',
+        src: 'img/robot.jpg',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'ros2ModuleSidebar',
           position: 'left',
-          label: 'ROS 2 Module',
+          label: 'Read Book',
+          to:'/docs'
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
@@ -105,6 +107,7 @@ const config: Config = {
               label: 'Module 1: The Robotic Nervous System (ROS 2)',
               to: '/docs/module-1-robotic-nervous-system/introduction-to-ros2',
             },
+           
           ],
         },
         {

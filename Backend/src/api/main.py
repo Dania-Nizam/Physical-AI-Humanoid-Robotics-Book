@@ -17,6 +17,7 @@ import time
 from typing import Callable, Any
 from functools import wraps
 import asyncio
+from typing import AsyncGenerator
 
 # Import centralized logging and performance monitoring
 from utils.logging_config import get_logger, log_api_call, log_error_with_context
@@ -70,7 +71,7 @@ async def get_metrics():
 # Add CORS middleware (allow all for now)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify exact origins
+    allow_origins=["http://localhost:3000"],  # In production, specify exact origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -161,6 +162,6 @@ async def root(request: Request):
     return {"message": "RAG Chatbot Backend API", "status": "running", "timestamp": datetime.now().isoformat()}
 
 # Dependency for database session
-async def get_db() -> AsyncSession:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async for session in get_db_session():
         yield session
